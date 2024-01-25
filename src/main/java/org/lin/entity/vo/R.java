@@ -1,10 +1,10 @@
-package com.lw.entity.resp;
+package org.lin.entity.vo;
 
-import com.lw.common.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.lin.entity.enums.ResultCodeEnum;
 
 import java.io.Serializable;
 

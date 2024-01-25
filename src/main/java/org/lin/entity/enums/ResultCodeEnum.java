@@ -1,4 +1,4 @@
-package com.lw.common;
+package org.lin.entity.enums;
 
 import lombok.Getter;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package com.lw.common;
+package org.lin.common;
 
 /**
  * @author lw

@@ -1,10 +1,9 @@
-package com.lw.exception;
+package org.lin.exception;
 
-import com.lw.utils.ExceptionUtils;
-import com.lw.entity.resp.R;
-import com.lw.common.ResultCodeEnum;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.lin.entity.enums.ResultCodeEnum;
+import org.lin.entity.vo.R;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.validation.BindException;
@@ -46,25 +45,11 @@ public class GlobalException {
         return new R().error(message, ResultCodeEnum.PARAM_ERROR.getCode());
     }
 
-    @ExceptionHandler(VBlogException.class)
+    @ExceptionHandler(BussinessException.class)
     @ResponseBody
-    public R error(VBlogException e){
+    public R error(BussinessException e){
         log.error(ExceptionUtils.getMessage(e));
         return new R().error(e.getMessage(),e.getCode());
-    }
-
-    @ExceptionHandler(RollBackException.class)
-    @ResponseBody
-    public R error(RollBackException e){
-        log.error(e.getMessage());
-        return new R().error(e.getMessage(),e.getCode());
-    }
-
-    @ExceptionHandler(ExpiredJwtException.class)
-    @ResponseBody
-    public R error(ExpiredJwtException e){
-        log.error(e.getMessage());
-        return new R().error(ResultCodeEnum.TOKEN_EXPIRED);
     }
 
 }

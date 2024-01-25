@@ -1,12 +1,12 @@
-package com.lw.exception;
+package org.lin.exception;
 
-import com.lw.common.ResultCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.lin.entity.enums.ResultCodeEnum;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class VBlogException extends RuntimeException{
+public class BussinessException extends RuntimeException{
     //状态码
 
     private Integer code;
@@ -16,7 +16,7 @@ public class VBlogException extends RuntimeException{
      * @param code
      * @param message
      */
-    public VBlogException(Integer code, String message) {
+    public BussinessException(Integer code, String message) {
         super(message);
         this.setCode(code);
     }
@@ -25,7 +25,7 @@ public class VBlogException extends RuntimeException{
      * 接收枚举类型
      * @param resultCodeEnum
      */
-    public VBlogException(ResultCodeEnum resultCodeEnum) {
+    public BussinessException(ResultCodeEnum resultCodeEnum) {
         super(resultCodeEnum.getMessage());
         this.setCode(resultCodeEnum.getCode());
     }

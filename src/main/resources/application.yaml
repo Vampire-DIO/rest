@@ -1,0 +1,13 @@
+spring:
+    datasource:
+        db: jdbc:mysql://localhost:3306/home_rest?user=root&password=root123&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+minio:
+    config:
+        ip: 106.13.196.131
+        port: 9000
+        accessKey: "V3GH8Kr0tJWhc7r4EBdI"
+        secretKey: "IQOCkcBY7dXfhLkH21GSwvb9MHwgJBl2lXcvDEMj"
+        bucketName: rest
+        downloadDir: "/data/file"
+        secure: false
+
