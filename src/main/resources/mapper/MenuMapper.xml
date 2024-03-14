@@ -11,12 +11,18 @@
     </resultMap>
     <select id="queryList" resultType="org.lin.entity.bo.Menu" parameterType="org.lin.entity.req.MenuQuery">
         select m.* from menu m
-        right join menu_category_rel mcr on mc.menu_id = m.id
+        right join menu_category_rel mcr on mcr.menu_id = m.id
         <where>
             <if test="query.name != null">
                 m.name like concat('%',#{query.name},'%')
             </if>
-            mcr.category_id = #{query.menuCategoryId} and limit #{query.page}, #{query.pageSize} order by m.sort
+            mcr.category_id = #{query.menuCategoryId}  order by m.sort
+            <if test="query.page == 0 || query.page == 1">
+                limit #{query.pageSize}
+            </if>
+            <if test="query.page > 1">
+                limit #{query.page}, #{query.pageSize}
+            </if>
         </where>
     </select>
     <select id="queryTotal" resultType="java.lang.Long" parameterType="java.lang.Integer">

@@ -35,15 +35,15 @@ public class MenuController {
     @GetMapping("{id}")
     @ApiOperation("单个菜单")
     @Permission
-    public R<Menu> getById(@PathVariable Integer id){
-        return new R<Menu>().data(menuService.getById(id));
+    public R<MenuVO> getById(@PathVariable Integer id){
+        return new R<MenuVO>().data(menuService.getMenuVOById(id));
     }
 
     @GetMapping("list")
     @ApiOperation("某个分类下的菜单列表")
     @Permission
-    public R<PageListVO<Menu>> list(MenuQuery query){
-        return new R<PageListVO<Menu>>().data(menuService.queryList(query));
+    public R<PageListVO<MenuVO>> list(MenuQuery query){
+        return new R<PageListVO<MenuVO>>().data(menuService.queryList(query));
     }
 
     @PostMapping("")

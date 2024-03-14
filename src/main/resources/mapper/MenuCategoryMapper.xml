@@ -17,7 +17,12 @@
             parameterType="org.lin.entity.req.CategoryQuery">
         select mc.* from menu_category mc where mc.shop_id = #{query.shopId}
         order by mc.sort
-        limit #{query.page} , #{query.pageSize}
+        <if test="query.page == 0 || query.page == 1">
+            limit #{query.pageSize}
+        </if>
+        <if test="query.page > 1">
+            limit #{query.page}, #{query.pageSize}
+        </if>
 
     </select>
 

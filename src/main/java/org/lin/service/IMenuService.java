@@ -5,6 +5,7 @@ import org.lin.entity.bo.Menu;
 import org.lin.entity.req.MenuQuery;
 import org.lin.entity.req.MenuSave;
 import org.lin.entity.vo.PageListVO;
+import org.lin.entity.vo.menu.MenuVO;
 
 /**
  * <p>
@@ -16,7 +17,9 @@ import org.lin.entity.vo.PageListVO;
  */
 public interface IMenuService extends IService<Menu> {
 
-    PageListVO<Menu> queryList(MenuQuery query);
+    MenuVO getMenuVOById(Integer id);
+
+    PageListVO<MenuVO> queryList(MenuQuery query);
 
     Integer save(MenuSave menu);
 
