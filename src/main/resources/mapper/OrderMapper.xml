@@ -3,7 +3,7 @@
 <mapper namespace="org.lin.mybatis.OrderMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.lin.entity.Order">
+    <resultMap id="BaseResultMap" type="org.lin.entity.bo.Order">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="description" property="description" />

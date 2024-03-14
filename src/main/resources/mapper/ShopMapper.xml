@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.lin.mybatis.PictureMapper">
+<mapper namespace="org.lin.mybatis.ShopMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.lin.entity.bo.Picture">
+    <resultMap id="BaseResultMap" type="org.lin.entity.bo.Shop">
         <id column="id" property="id" />
-        <result column="order_id" property="orderId" />
-        <result column="content" property="content" />
+        <result column="name" property="name" />
         <result column="create_time" property="createTime" />
+        <result column="status" property="status" />
     </resultMap>
 
 </mapper>

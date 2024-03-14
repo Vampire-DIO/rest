@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lin.mybatis.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.lin.entity.bo.Menu">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+    <select id="queryList" resultType="org.lin.entity.bo.Menu" parameterType="org.lin.entity.req.MenuQuery">
+        select m.* from menu m where
+        <if test="query.name != null">
+            m.name like concat('%',#{query.name},'%')
+        </if>
+            right join menu_category_rel mcr on mc.menu_id = m.id
+            where mcr.category_id = #{query.menuCategoryId} and limit #{query.page}, #{query.pageSize} order by m.sort
+    </select>
+
+</mapper>

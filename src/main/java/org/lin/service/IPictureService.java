@@ -1,9 +1,11 @@
 package org.lin.service;
 
-import org.lin.entity.Picture;
+import org.lin.entity.bo.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.lin.entity.vo.R;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,5 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface IPictureService extends IService<Picture> {
 
-    public R<String> upload(MultipartFile file);
+    R<Integer> upload(MultipartFile file, Integer menuId);
+
+    Boolean insertMany(List<MultipartFile> files, int menuId);
 }

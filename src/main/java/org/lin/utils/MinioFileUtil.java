@@ -8,6 +8,7 @@ import io.minio.messages.DeleteObject;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.lin.config.MinioProperties;
+import org.lin.entity.dto.MinioUploadRes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -273,10 +274,9 @@ public class MinioFileUtil {
                 .method(Method.GET)//下载地址的请求方式
                 .bucket(bucketName)
                 .object(objectName)
-                .expiry(expires, TimeUnit.SECONDS)//下载地址过期时间
+//                .expiry(expires, TimeUnit.SECONDS)//下载地址过期时间
                 .build();
-        String objectUrl = minioClient.getPresignedObjectUrl(args);
-        return objectUrl;
+        return minioClient.getPresignedObjectUrl(args);
     }
 
     /**
@@ -384,7 +384,7 @@ public class MinioFileUtil {
      * @param file       上传的文件
      * @param bucketName 上传至服务器的桶名称
      */
-    public boolean uploadFile(MultipartFile file, String bucketName) throws Exception {
+    public MinioUploadRes uploadFile(MultipartFile file, String bucketName) throws Exception {
 
         if (file == null || file.getSize() == 0 || file.isEmpty()) {
             throw new RuntimeException("上传文件为空，请重新上传");
@@ -407,7 +407,6 @@ public class MinioFileUtil {
         assert filename != null;
         //可以选择生成一个minio中存储的文件名称
         String minioFilename = UUID.randomUUID().toString() + "_" + filename;
-        String url = "http:" + minioProperties.getIp() + ":" + minioProperties.getPort();
 
         InputStream inputStream = file.getInputStream();
         long size = file.getSize();
@@ -422,8 +421,8 @@ public class MinioFileUtil {
                         .stream(inputStream, size, -1) //上传分片文件流大小，如果分文件上传可以采用这种形式
                         .contentType(contentType) //文件的类型
                         .build());
-
-        return this.getBucketFileExist(minioFilename, bucketName);
+        String fileDownloadUrl = this.getFileDownloadUrl(bucketName, minioFilename, -1);
+        return MinioUploadRes.builder().url(fileDownloadUrl).originalFilename(minioFilename).bucketName(bucketName).build();
     }
 
     /**

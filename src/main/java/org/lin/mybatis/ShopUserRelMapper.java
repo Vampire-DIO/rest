@@ -1,7 +1,7 @@
 package org.lin.mybatis;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.lin.entity.bo.Picture;
+import org.lin.entity.bo.ShopUserRel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -10,9 +10,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author lw
- * @since 2024-01-24
+ * @since 2024-03-13
  */
 @Mapper
-public interface PictureMapper extends BaseMapper<Picture> {
+public interface ShopUserRelMapper extends BaseMapper<ShopUserRel> {
 
 }

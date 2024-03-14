@@ -1,9 +1,8 @@
 package org.lin.mybatis;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.lin.entity.Order;
+import org.lin.entity.bo.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
 
 /**
  * <p>

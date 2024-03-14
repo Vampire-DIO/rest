@@ -107,6 +107,18 @@
       <artifactId>mybatis-plus-generator</artifactId>
       <version>3.4.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>4.11</version>
+    </dependency>
     <!--pagehelper-->
     <dependency>
       <groupId>com.github.pagehelper</groupId>

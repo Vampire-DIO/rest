@@ -1,4 +1,4 @@
-package org.lin.entity;
+package org.lin.entity.bo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -13,11 +14,11 @@ import io.swagger.annotations.ApiModel;
  * </p>
  *
  * @author lw
- * @since 2024-01-24
+ * @since 2024-03-13
  */
-@TableName("order")
-@ApiModel(value="Order对象", description="")
-public class Order implements Serializable {
+@TableName("menu_category")
+@ApiModel(value="MenuCategory对象", description="")
+public class MenuCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,7 +27,17 @@ public class Order implements Serializable {
 
     private String name;
 
-    private String description;
+    private Integer shopId;
+
+    private Integer sort;
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
     private LocalDateTime createTime;
 
@@ -44,12 +55,12 @@ public class Order implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public String getDescription() {
-        return description;
+    public Integer getShopId() {
+        return shopId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -61,10 +72,10 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "MenuCategory{" +
             "id=" + id +
             ", name=" + name +
-            ", description=" + description +
+            ", shopId=" + shopId +
             ", createTime=" + createTime +
         "}";
     }

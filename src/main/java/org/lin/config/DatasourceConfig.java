@@ -1,9 +1,13 @@
 package org.lin.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.io.VFS;
+import org.apache.ibatis.logging.log4j2.Log4j2LoggerImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -36,6 +40,7 @@ public class DatasourceConfig {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setMaxActive(100);
         dataSource.setMaxWait(60000);
+        dataSource.setUrl("jdbc:mysql://localhost:3306/home_rest?user=root&password=root123&serverTimezone=Asia/Shanghai&allowMultiQueries=true");
         dataSource.setTimeBetweenEvictionRunsMillis(60000);
         dataSource.setMinEvictableIdleTimeMillis(300000);
         dataSource.setValidationQuery("SELECT 1 FROM DUAL");
@@ -66,6 +71,14 @@ public class DatasourceConfig {
         configuration.setDefaultEnumTypeHandler(org.apache.ibatis.type.EnumOrdinalTypeHandler.class);
         bean.setConfiguration(configuration);
         return bean.getObject();
+    }
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 这里可以添加其他的插件，比如分页插件等
+         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
     }
 
     @Bean(name = "dataSourceTransactionManager")

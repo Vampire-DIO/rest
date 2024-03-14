@@ -5,11 +5,8 @@ import org.lin.entity.vo.R;
 import org.lin.exception.BussinessException;
 import org.lin.service.IPictureService;
 import org.lin.utils.FileUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -25,14 +22,15 @@ import java.io.InputStream;
  */
 @RestController
 @RequestMapping("/picture")
+@ControllerAdvice
 public class PictureController {
 
     @Resource
     private IPictureService pictureService;
 
     @PostMapping()
-    public R<String> upload(@RequestParam("file")MultipartFile file){
-        return pictureService.upload(file);
+    public R<Integer> upload(@RequestParam("file")MultipartFile file){
+        return pictureService.upload(file,null);
     }
 
 }

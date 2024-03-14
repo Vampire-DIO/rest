@@ -1,6 +1,6 @@
 package org.lin.service;
 
-import org.lin.entity.bo.Order;
+import org.lin.entity.bo.MenuCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author lw
- * @since 2024-01-24
+ * @since 2024-03-13
  */
-public interface IOrderService extends IService<Order> {
+public interface IMenuCategoryService extends IService<MenuCategory> {
 
 }
