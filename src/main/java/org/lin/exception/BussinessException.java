@@ -2,7 +2,7 @@ package org.lin.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.lin.entity.enums.ResultCodeEnum;
+import org.lin.enums.ResultCodeEnum;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

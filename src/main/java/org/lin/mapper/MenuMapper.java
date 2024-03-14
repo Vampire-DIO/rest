@@ -1,4 +1,4 @@
-package org.lin.mybatis;
+package org.lin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,4 +20,6 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> queryList(@Param("query") MenuQuery query);
+
+    long queryTotal(@Param("categoryId") Integer categoryId);
 }

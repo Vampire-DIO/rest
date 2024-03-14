@@ -1,7 +1,7 @@
-package org.lin.mybatis;
+package org.lin.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.lin.entity.bo.Shop;
+import org.lin.entity.bo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -13,6 +13,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2024-03-13
  */
 @Mapper
-public interface ShopMapper extends BaseMapper<Shop> {
+public interface UserMapper extends BaseMapper<User> {
 
 }

@@ -1,4 +1,4 @@
-package org.lin.entity.enums;
+package org.lin.enums;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -57,13 +57,19 @@ public enum ResultCodeEnum {
     COMMENT_NULL(false,28010, "评论不存在"),
 
     TAG_NULL(false,28010,"分类不存在"),
-    LIMIT(false, 41000, "请求过于频繁，稍后再试");
+    LIMIT(false, 41000, "请求过于频繁，稍后再试"),
+    ID_NOT_NULL(false, 41001, "id不能为空"),
+
+    MENU_NOT_EXIST(false, 41002, "菜单不存在"), UPDATE_ERROR(false, 41003, "数据更新失败"),
+    SHOP_NOT_EXIST(false, 41004, "店铺不存在"), USER_NOT_EXIST(false, 41005, "用户名密码错误"), NOT_LOGIN(false,41006 ,"未登录" );
 
     private final Boolean success;
 
     private final Integer code;
 
     private final String message;
+
+
 
     ResultCodeEnum(Boolean success, Integer code, String message) {
         this.success = success;

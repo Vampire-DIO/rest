@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScans;
  * Hello world!
  *
  */
-@MapperScan("org.lin.mybatis")
 @SpringBootApplication
 public class App
 {

@@ -1,4 +1,4 @@
-package org.lin.entity.enums;
+package org.lin.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;

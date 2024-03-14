@@ -1,6 +1,6 @@
 package org.lin.service;
 
-import org.lin.entity.bo.User;
+import org.lin.entity.bo.MenuCategoryRel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,9 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author lw
- * @since 2024-03-13
+ * @since 2024-03-14
  */
-public interface IUserService extends IService<User> {
+public interface IMenuCategoryRelService extends IService<MenuCategoryRel> {
 
-    String login(User user);
 }

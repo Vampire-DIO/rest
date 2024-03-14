@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author lw
@@ -17,7 +18,7 @@ import lombok.Data;
  */
 @Data
 @TableName("picture")
-@ApiModel(value="Picture对象", description="")
+@ApiModel(value = "Picture对象", description = "")
 public class Picture implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +27,10 @@ public class Picture implements Serializable {
     private Integer id;
 
     private String url;
+
+    private String bucketName;
+
+    private String fileName;
 
     private Integer menuId;
 

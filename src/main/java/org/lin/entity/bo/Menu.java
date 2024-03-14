@@ -2,6 +2,7 @@ package org.lin.entity.bo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
+import org.lin.enums.MenuStatusEnum;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,6 +20,9 @@ public class Menu  implements Serializable {
     private String name;
     private String description;
     private Integer sort;
+    private Integer soldNum;
+    private Integer price;
+    private MenuStatusEnum status;
     private LocalDateTime createTime;
 
 }

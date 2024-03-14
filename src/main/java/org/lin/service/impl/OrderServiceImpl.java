@@ -1,7 +1,7 @@
 package org.lin.service.impl;
 
 import org.lin.entity.bo.Order;
-import org.lin.mybatis.OrderMapper;
+import org.lin.mapper.OrderMapper;
 import org.lin.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

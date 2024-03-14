@@ -1,6 +1,9 @@
 package org.lin.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.lin.aspect.Permission;
 import org.lin.entity.bo.Menu;
 import org.lin.entity.req.MenuQuery;
 import org.lin.entity.req.MenuSave;
@@ -22,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 @ControllerAdvice
+@Api
 public class MenuController {
 
     @Resource
@@ -29,18 +33,33 @@ public class MenuController {
 
 
     @GetMapping("{id}")
+    @ApiOperation("单个菜单")
+    @Permission
     public R<Menu> getById(@PathVariable Integer id){
         return new R<Menu>().data(menuService.getById(id));
     }
 
     @GetMapping("list")
+    @ApiOperation("某个分类下的菜单列表")
+    @Permission
     public R<PageListVO<Menu>> list(MenuQuery query){
         return new R<PageListVO<Menu>>().data(menuService.queryList(query));
     }
 
     @PostMapping("")
+    @ApiOperation("新增菜品")
+    @Permission
     public R<Integer> save(@RequestBody @Valid MenuSave menu){
         return new R<Integer>().data(menuService.save(menu));
     }
+
+
+    @PutMapping("")
+    @ApiOperation("更新菜品信息")
+    @Permission
+    public R<Integer> update(@RequestBody @Valid MenuSave menu){
+        return new R<Integer>().data(menuService.update(menu));
+    }
+
 
 }

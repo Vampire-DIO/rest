@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.lin.mybatis.MenuCategoryMapper">
+<mapper namespace="org.lin.mapper.MenuCategoryMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.lin.entity.bo.MenuCategory">
@@ -9,5 +9,17 @@
         <result column="shop_id" property="shopId" />
         <result column="create_time" property="createTime" />
     </resultMap>
+    <select id="getTotal" resultType="java.lang.Long" parameterType="java.lang.Integer">
+        select count(*) from menu_category mc
+        where mc.shop_id = #{shopId}
+    </select>
+    <select id="queryList" resultType="org.lin.entity.bo.MenuCategory"
+            parameterType="org.lin.entity.req.CategoryQuery">
+        select mc.* from menu_category mc where mc.shop_id = #{query.shopId}
+        order by mc.sort
+        limit #{query.page} , #{query.pageSize}
+
+    </select>
+
 
 </mapper>

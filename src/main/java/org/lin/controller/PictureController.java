@@ -1,6 +1,9 @@
 package org.lin.controller;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.lin.aspect.Permission;
 import org.lin.entity.vo.R;
 import org.lin.exception.BussinessException;
 import org.lin.service.IPictureService;
@@ -23,14 +26,17 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("/picture")
 @ControllerAdvice
+@Api
 public class PictureController {
 
     @Resource
     private IPictureService pictureService;
 
     @PostMapping()
+    @ApiOperation("上传图片")
+    @Permission
     public R<Integer> upload(@RequestParam("file")MultipartFile file){
-        return pictureService.upload(file,null);
+        return pictureService.upload(file);
     }
 
 }

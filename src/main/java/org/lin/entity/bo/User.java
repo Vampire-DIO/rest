@@ -7,6 +7,8 @@ import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 
@@ -24,7 +26,11 @@ public class User implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @NotNull
     private String email;
+
+    @NotNull
+    private String password;
 
     private String username;
 
@@ -44,6 +50,14 @@ public class User implements Serializable {
     }
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUsername(String username) {

@@ -2,7 +2,7 @@ package org.lin.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.lin.entity.enums.ResultCodeEnum;
+import org.lin.enums.ResultCodeEnum;
 import org.lin.entity.vo.R;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jdbc.BadSqlGrammarException;

@@ -19,4 +19,6 @@ public interface IMenuService extends IService<Menu> {
     PageListVO<Menu> queryList(MenuQuery query);
 
     Integer save(MenuSave menu);
+
+    Integer update(MenuSave menu);
 }

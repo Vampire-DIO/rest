@@ -2,6 +2,11 @@ package org.lin.service;
 
 import org.lin.entity.bo.MenuCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.lin.entity.req.CategoryQuery;
+import org.lin.entity.req.CategorySave;
+import org.lin.entity.vo.PageListVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +18,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMenuCategoryService extends IService<MenuCategory> {
 
+    Integer save(CategorySave category);
+
+    Boolean update(List<CategorySave> category);
+
+    PageListVO<MenuCategory> queryList(CategoryQuery query);
 }

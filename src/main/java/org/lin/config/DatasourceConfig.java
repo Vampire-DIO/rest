@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.logging.log4j2.Log4j2LoggerImpl;
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -62,10 +63,12 @@ public class DatasourceConfig {
         MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("org.lin.entity");
+        bean.setTypeEnumsPackage("org.lin.enums");
         bean.setMapperLocations(
-                new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*/*Mapper.xml"));
+                new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*Mapper.xml"));
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setCallSettersOnNulls(true);
+        configuration.setLogImpl(StdOutImpl.class);
         //自动转驼峰
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setDefaultEnumTypeHandler(org.apache.ibatis.type.EnumOrdinalTypeHandler.class);

@@ -1,7 +1,7 @@
 package org.lin.service.impl;
 
 import org.lin.entity.bo.ShopUserRel;
-import org.lin.mybatis.ShopUserRelMapper;
+import org.lin.mapper.ShopUserRelMapper;
 import org.lin.service.IShopUserRelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
-package org.lin.mybatis;
+package org.lin.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.lin.entity.bo.User;
+import org.lin.entity.bo.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -10,9 +10,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author lw
- * @since 2024-03-13
+ * @since 2024-01-24
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface OrderMapper extends BaseMapper<Order> {
 
 }

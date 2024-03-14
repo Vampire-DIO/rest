@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface IPictureService extends IService<Picture> {
 
-    R<Integer> upload(MultipartFile file, Integer menuId);
+    R<Integer> upload(MultipartFile file);
 
-    Boolean insertMany(List<MultipartFile> files, int menuId);
+    boolean deleteBatch(List<Picture> deleteList);
 }

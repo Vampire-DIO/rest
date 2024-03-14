@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.lin.entity.bo.Picture;
 import org.lin.entity.dto.MinioUploadRes;
 import org.lin.entity.vo.R;
-import org.lin.mybatis.PictureMapper;
+import org.lin.mapper.PictureMapper;
 import org.lin.service.IPictureService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.lin.utils.MinioFileUtil;
@@ -31,13 +31,14 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
     private MinioFileUtil minioFileUtil;
 
 
-    public R<Integer> upload(MultipartFile file, Integer menuId) {
+    public R<Integer> upload(MultipartFile file) {
         MinioUploadRes uploadRes = null;
         try {
             uploadRes = minioFileUtil.uploadFile(file, "rest");
             Picture picture = new Picture();
             picture.setUrl(uploadRes.getUrl());
-            picture.setMenuId(menuId);
+            picture.setBucketName(uploadRes.getBucketName());
+            picture.setFileName(uploadRes.getOriginalFilename());
             save(picture);
             return new R<Integer>().data(picture.getId());
         } catch (Exception e) {
@@ -52,10 +53,15 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
         }
     }
 
-    public Boolean insertMany(List<MultipartFile> files, int menuId){
-        for (MultipartFile file : files) {
-            upload(file,menuId);
-        }
+    @Override
+    public boolean deleteBatch(List<Picture> deleteList) {
+        deleteList.forEach(picture -> {
+            this.removeById(picture.getId());
+            if (!minioFileUtil.deleteBucketFile(picture.getBucketName(), picture.getFileName())) {
+                log.error("删除文件失败 bucketName: {}, fileName: {}", picture.getBucketName(), picture.getFileName());
+            }
+        });
         return true;
     }
+
 }

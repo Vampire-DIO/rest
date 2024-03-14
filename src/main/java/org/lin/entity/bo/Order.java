@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import org.lin.entity.enums.OrderStatusEnum;
+import org.lin.enums.OrderStatusEnum;
 
 /**
  * <p>

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.lin.entity.enums.ResultCodeEnum;
+import org.lin.enums.ResultCodeEnum;
 
 import java.io.Serializable;
 
@@ -73,6 +73,8 @@ public class R<T> implements Serializable {
 
     public R<T> data(T data) {
         this.data = data;
+        this.code = 0;
+        this.success = true;
         return this;
     }
 

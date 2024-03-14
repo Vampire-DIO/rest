@@ -1,4 +1,4 @@
-package org.lin.mybatis;
+package org.lin.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.lin.entity.bo.ShopUserRel;
