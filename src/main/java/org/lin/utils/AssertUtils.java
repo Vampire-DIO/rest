@@ -47,6 +47,12 @@ public class AssertUtils {
         }
     }
 
+    public static void isFalse(boolean expression, int code, String msg) {
+        if (expression) {
+            throw new BussinessException(code,msg);
+        }
+    }
+
     /**
      *
      * @param exposeDataId 是否暴露异常数据Id，根据该字段拼接不同提示
@@ -89,6 +95,13 @@ public class AssertUtils {
             throw new BussinessException(ResultCodeEnum);
         }
     }
+
+    public static void notNull(@Nullable Object object, int code, String msg) {
+        if (object == null) {
+            throw new BussinessException(code,msg);
+        }
+    }
+
 
     public static void notNull(@Nullable Object object, ResultCodeEnum ResultCodeEnum, boolean exposeDataId, String errorMsg) {
         if (object == null) {

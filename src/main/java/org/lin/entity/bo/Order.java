@@ -26,10 +26,6 @@ public class Order implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String name;
-
-    private String description;
-
     private OrderStatusEnum status;
 
     private Integer creatorId;
@@ -37,5 +33,7 @@ public class Order implements Serializable {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
+    private Integer shopId;
 
 }
