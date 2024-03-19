@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.lin.entity.bo.Menu;
 import org.lin.entity.bo.MenuCategoryRel;
 import org.lin.entity.bo.Picture;
+import org.lin.entity.dto.MenuDTO;
+import org.lin.entity.vo.menu.CategoryWithMenus;
 import org.lin.entity.vo.menu.MenuVO;
 import org.lin.enums.MenuStatusEnum;
 import org.lin.enums.ResultCodeEnum;
@@ -25,10 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -65,31 +64,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     }
 
     @Override
-    public PageListVO<MenuVO> queryList(MenuQuery query) {
-        long total = menuMapper.queryTotal(query.getMenuCategoryId());
-        long totalPage = total % query.getPageSize() == 0 ? total / query.getPageSize() : total / query.getPageSize() + 1;
-        List<Menu> list = menuMapper.queryList(query);
-        Set<Integer> set = list.stream().map(Menu::getId).collect(Collectors.toSet());
-        List<Picture> pictureList = pictureService.list(new LambdaQueryWrapper<Picture>().in(Picture::getMenuId, set));
-        Map<Integer, List<String>> map = pictureList.stream().collect(Collectors.groupingBy(Picture::getMenuId,
-                Collectors.mapping(Picture::getUrl,Collectors.toList())));
-
-        ArrayList<MenuVO> resList = new ArrayList<>();
-        list.forEach(f->{
-            MenuVO menuVO = new MenuVO();
-            BeanUtils.copyProperties(f,menuVO);
-            menuVO.setPics(map.get(menuVO.getId()));
-            menuVO.setCategoryId(query.getMenuCategoryId());
-            resList.add(menuVO);
-        });
-
-        PageListVO<MenuVO> listVO = new PageListVO<>();
-        listVO.setCurrentPage(query.getPage());
-        listVO.setPageSize(list.size());
-        listVO.setTotal(total);
-        listVO.setTotalPage(totalPage);
-        listVO.setData(resList);
-        return listVO;
+    public List<CategoryWithMenus>  queryList(MenuQuery query) {
+        return menuMapper.queryList(query);
     }
 
     @Transactional

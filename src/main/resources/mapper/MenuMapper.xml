@@ -9,22 +9,64 @@
         <result column="description" property="description" />
         <result column="create_time" property="createTime" />
     </resultMap>
-    <select id="queryList" resultType="org.lin.entity.bo.Menu" parameterType="org.lin.entity.req.MenuQuery">
-        select m.* from menu m
-        right join menu_category_rel mcr on mcr.menu_id = m.id
-        <where>
-            <if test="query.name != null">
-                m.name like concat('%',#{query.name},'%')
-            </if>
-            mcr.category_id = #{query.menuCategoryId}  order by m.sort
-            <if test="query.page == 0 || query.page == 1">
-                limit #{query.pageSize}
-            </if>
-            <if test="query.page > 1">
-                limit #{query.page}, #{query.pageSize}
-            </if>
-        </where>
+
+    <!-- ResultMap for MenuCategory -->
+    <resultMap id="menuCategoryMap" type="org.lin.entity.bo.MenuCategory">
+        <id property="id" column="category_id"/>
+        <result property="name" column="category_name"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="sort" column="category_sort"/>
+    </resultMap>
+
+
+    <!-- ResultMap for Menu -->
+    <resultMap id="menuMap" type="org.lin.entity.vo.menu.MenuVO">
+        <id property="id" column="menu_id"/>
+        <result property="name" column="menu_name"/>
+        <result column="price" property="price"/>
+        <result column="sold_num" property="soldNum" />
+        <result column="description" property="description"/>
+        <collection property="pics" ofType="java.lang.String" resultMap="pictureMap"/>
+    </resultMap>
+
+    <!-- Simplified ResultMap for Picture (only url) -->
+    <resultMap id="pictureMap" type="java.lang.String">
+        <result property="url" column="picture_url"/>
+    </resultMap>
+
+    <!-- ResultMap for CategoryWithMenus -->
+    <resultMap id="categoryWithMenusMap" type="org.lin.entity.vo.menu.CategoryWithMenus">
+        <id property="categoryId" column="category_id"/>
+        <result column="category_name" property="categoryName" />
+        <result column="category_sort" property="categorySort" />
+        <collection property="menus" ofType="org.lin.entity.vo.menu.MenuVO" resultMap="menuMap"/>
+    </resultMap>
+
+    <select id="queryList" resultMap="categoryWithMenusMap" parameterType="org.lin.entity.req.MenuQuery">
+        SELECT
+            mc.id as category_id,
+            mc.name as category_name,
+            mc.shop_id,
+            mc.create_time,
+            mc.sort as category_sort,
+            m.id as menu_id,
+            m.description,
+            m.price,
+            m.sold_num,
+            m.name as menu_name,
+            p.url as picture_url
+        FROM
+            menu_category mc
+                left join menu_category_rel mcr ON mc.id = mcr.category_id
+                left JOIN menu m ON mcr.menu_id = m.id
+                LEFT JOIN picture p ON m.id = p.menu_id
+        WHERE
+            mc.shop_id = #{query.shopId}
+        GROUP BY
+            mc.id, m.id, p.url
+        Order by mc.sort, m.sold_num desc
     </select>
+
     <select id="queryTotal" resultType="java.lang.Long" parameterType="java.lang.Integer">
         select count(1) from menu_category_rel mcr where mcr.category_id = #{categoryId}
     </select>

@@ -2,10 +2,14 @@ package org.lin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.lin.entity.bo.Menu;
+import org.lin.entity.dto.MenuDTO;
 import org.lin.entity.req.MenuQuery;
 import org.lin.entity.req.MenuSave;
 import org.lin.entity.vo.PageListVO;
+import org.lin.entity.vo.menu.CategoryWithMenus;
 import org.lin.entity.vo.menu.MenuVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,7 +23,7 @@ public interface IMenuService extends IService<Menu> {
 
     MenuVO getMenuVOById(Integer id);
 
-    PageListVO<MenuVO> queryList(MenuQuery query);
+    List<CategoryWithMenus>  queryList(MenuQuery query);
 
     Integer save(MenuSave menu);
 

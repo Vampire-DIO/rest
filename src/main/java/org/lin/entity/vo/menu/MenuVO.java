@@ -21,8 +21,6 @@ public class MenuVO {
 
     private List<String> pics;
 
-    private Integer sort;
-
     private Integer price;
 
     private Integer soldNum;

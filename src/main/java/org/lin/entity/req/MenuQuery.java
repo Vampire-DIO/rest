@@ -7,12 +7,11 @@ import lombok.EqualsAndHashCode;
  * @Author LvWei
  * @Date 2024/3/13 16:59
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class MenuQuery extends PageBaseReq{
+public class MenuQuery {
 
     private String name;
 
-    private Integer menuCategoryId;
+    private Integer shopId;
 
 }

@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.lin.aspect.Permission;
 import org.lin.entity.bo.Menu;
+import org.lin.entity.dto.MenuDTO;
 import org.lin.entity.req.MenuQuery;
 import org.lin.entity.req.MenuSave;
 import org.lin.entity.vo.PageListVO;
 import org.lin.entity.vo.R;
+import org.lin.entity.vo.menu.CategoryWithMenus;
 import org.lin.entity.vo.menu.MenuVO;
 import org.lin.exception.BussinessException;
 import org.lin.service.IMenuService;
@@ -42,8 +44,8 @@ public class MenuController {
     @GetMapping("list")
     @ApiOperation("某个分类下的菜单列表")
     @Permission
-    public R<PageListVO<MenuVO>> list(MenuQuery query){
-        return new R<PageListVO<MenuVO>>().data(menuService.queryList(query));
+    public R<List<CategoryWithMenus> > list(MenuQuery query){
+        return new R<List<CategoryWithMenus> >().data(menuService.queryList(query));
     }
 
     @PostMapping("")
