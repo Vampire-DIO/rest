@@ -2,10 +2,12 @@ package org.lin.service;
 
 import org.lin.entity.bo.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.lin.entity.dto.OrderWithMenu;
 import org.lin.entity.req.OrderQuery;
 import org.lin.entity.req.OrderSave;
 import org.lin.entity.req.OrderUpdate;
 import org.lin.entity.vo.PageListVO;
+import org.lin.entity.vo.order.OrderVO;
 
 import java.util.List;
 
@@ -26,4 +28,6 @@ public interface IOrderService extends IService<Order> {
     Boolean update(OrderUpdate update);
 
     PageListVO<Order> list(OrderQuery query);
+
+    OrderWithMenu get(Integer id);
 }

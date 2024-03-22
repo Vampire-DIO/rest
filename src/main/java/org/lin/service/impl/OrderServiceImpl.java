@@ -1,14 +1,20 @@
 package org.lin.service.impl;
 
+import cn.hutool.core.stream.CollectorUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.lin.entity.bo.*;
+import org.lin.entity.dto.OrderWithMenu;
+import org.lin.entity.dto.ShopWithRel;
+import org.lin.entity.req.MenuOrder;
 import org.lin.entity.req.OrderQuery;
 import org.lin.entity.req.OrderSave;
 import org.lin.entity.req.OrderUpdate;
 import org.lin.entity.vo.PageListVO;
+import org.lin.entity.vo.order.OrderVO;
 import org.lin.enums.MenuStatusEnum;
 import org.lin.enums.OrderStatusEnum;
+import org.lin.exception.BussinessException;
 import org.lin.mapper.OrderMapper;
 import org.lin.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -55,22 +61,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Order order = new Order();
         order.setShopId(save.getShopId());
         synchronized (this) {
-            Map<Integer, Menu> map = menuService.listByIds(save.getMenuIds()).stream().collect(Collectors.toMap(Menu::getId, menu -> menu));
-            save.getMenuIds().forEach(menuId -> {
+            List<Integer> menuIds = save.getMenuIds().stream().map(MenuOrder::getId).collect(Collectors.toList());
+            Map<Integer, Integer> menuQuantityMap = save.getMenuIds().stream().collect(Collectors.toMap(MenuOrder::getId, MenuOrder::getQuantity));
+            Map<Integer, Menu> map = menuService.listByIds(menuIds).stream().collect(Collectors.toMap(Menu::getId, menu -> menu));
+
+            menuIds.forEach(menuId -> {
                 if (!map.containsKey(menuId)) {
-                    throw new RuntimeException("菜品不存在");
+                    throw new BussinessException(20000,"商品不存在");
                 }
                 Menu menu = map.get(menuId);
                 if (menu.getStatus() == MenuStatusEnum.SOLD_OUT) {
-                    throw new RuntimeException(menu.getName() + " 已售罄");
+                    throw new BussinessException(4022,"商品: " + menu.getName() + " 已售罄");
                 }
-                menu.setSoldNum(menu.getSoldNum() + 1);
+                menu.setSoldNum(menu.getSoldNum() + menuQuantityMap.get(menuId));
             });
             order.setCreatorId(ThreadLocalUtil.getUser().getId());
             order.setStatus(OrderStatusEnum.WAIT_RECEIVE);
             save(order);
 
-            orderMenuRelService.saveBatch(save.getMenuIds().stream().map(menuId -> {
+            orderMenuRelService.saveBatch(save.getMenuIds().stream().map(MenuOrder::getId).collect(Collectors.toList()).stream().map(menuId -> {
                 OrderMenuRel orderMenuRel = new OrderMenuRel();
                 orderMenuRel.setOrderId(order.getId());
                 orderMenuRel.setMenuId(menuId);
@@ -131,5 +140,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         res.setCurrentPage(query.getPage());
         res.setPageSize(query.getPageSize());
         return res;
+    }
+
+    @Override
+    public OrderWithMenu get(Integer id) {
+
+        OrderWithMenu orderWithMenu = orderMenuRelService.getOrderWithMenu(id);
+
+        AssertUtils.notNull(orderWithMenu, 5000,"订单不存在");
+        ShopWithRel shop = shopService.getShopWithRelById(orderWithMenu.getShopId());
+        AssertUtils.isFalse(CollectionUtils.isEmpty(shop.getUserIds()),4321, "商铺权限异常");
+        Integer userId = ThreadLocalUtil.getUser().getId();
+        AssertUtils.isTrue(Objects.equals(userId, orderWithMenu.getCreatorId()) || shop.getUserIds().contains(userId), 4120,"无权限");
+
+        return orderWithMenu;
     }
 }

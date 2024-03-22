@@ -1,7 +1,9 @@
 package org.lin.service;
 
+import org.apache.ibatis.annotations.Param;
 import org.lin.entity.bo.OrderMenuRel;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.lin.entity.dto.OrderWithMenu;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrderMenuRelService extends IService<OrderMenuRel> {
 
+    OrderWithMenu getOrderWithMenu(Integer orderId);
 }

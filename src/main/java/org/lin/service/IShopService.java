@@ -2,6 +2,7 @@ package org.lin.service;
 
 import org.lin.entity.bo.Shop;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.lin.entity.dto.ShopWithRel;
 import org.lin.entity.req.ShopSave;
 
 /**
@@ -15,4 +16,6 @@ import org.lin.entity.req.ShopSave;
 public interface IShopService extends IService<Shop> {
 
     Integer save(ShopSave save);
+
+    ShopWithRel getShopWithRelById(Integer shopId);
 }

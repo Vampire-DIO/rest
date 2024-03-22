@@ -13,7 +13,7 @@ import java.util.List;
 @ApiModel
 public class OrderSave {
 
-    private List<Integer> menuIds;
+    private List<MenuOrder> menuIds;
 
     private Integer shopId;
 

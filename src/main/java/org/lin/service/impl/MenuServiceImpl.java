@@ -1,5 +1,6 @@
 package org.lin.service.impl;
 
+import cn.hutool.core.lang.hash.MurmurHash;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,6 +9,7 @@ import org.lin.entity.bo.Menu;
 import org.lin.entity.bo.MenuCategoryRel;
 import org.lin.entity.bo.Picture;
 import org.lin.entity.dto.MenuDTO;
+import org.lin.entity.req.MenuStatusUpdate;
 import org.lin.entity.vo.menu.CategoryWithMenus;
 import org.lin.entity.vo.menu.MenuVO;
 import org.lin.enums.MenuStatusEnum;
@@ -65,7 +67,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Override
     public List<CategoryWithMenus>  queryList(MenuQuery query) {
-        return menuMapper.queryList(query);
+        List<CategoryWithMenus> categoryWithMenus = menuMapper.queryList(query);
+        categoryWithMenus.forEach(f->{
+            f.getMenus().forEach(e->{
+                e.setCategoryId(f.getCategoryId());
+            });
+        });
+        return categoryWithMenus;
     }
 
     @Transactional
@@ -125,6 +133,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
             log.error("保存图片失败");
         }
         updateById(old);
+        return menu.getId();
+    }
+
+    @Override
+    public Integer updateStatus(MenuStatusUpdate req) {
+        MenuStatusEnum statusEnum = MenuStatusEnum.getByCode(req.getStatus());
+        Menu menu = getById(req.getId());
+        AssertUtils.notNull(menu, 5231, "未找到对应商品");
+        menu.setStatus(statusEnum);
+        updateById(menu);
         return menu.getId();
     }
 }

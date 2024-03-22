@@ -4,11 +4,13 @@ package org.lin.controller;
 import lombok.Getter;
 import org.lin.aspect.Permission;
 import org.lin.entity.bo.Order;
+import org.lin.entity.dto.OrderWithMenu;
 import org.lin.entity.req.OrderQuery;
 import org.lin.entity.req.OrderSave;
 import org.lin.entity.req.OrderUpdate;
 import org.lin.entity.vo.PageListVO;
 import org.lin.entity.vo.R;
+import org.lin.entity.vo.order.OrderVO;
 import org.lin.service.IOrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +36,7 @@ public class OrderController {
 
     @PostMapping()
     @Permission
-    public R<Integer> save(OrderSave save){
+    public R<Integer> save(@RequestBody OrderSave save){
         return new R<Integer>().data(orderService.save(save));
     }
 
@@ -46,14 +48,19 @@ public class OrderController {
 
     @PutMapping()
     @Permission
-    public R<Boolean> update(OrderUpdate update){
+    public R<Boolean> update(@RequestBody  OrderUpdate update){
         return new R<Boolean>().data(orderService.update(update));
     }
 
-    @GetMapping()
+    @GetMapping("list")
     @Permission
     public R<PageListVO<Order>> list(OrderQuery query){
         return new R<PageListVO<Order>>().data(orderService.list(query));
     }
 
+    @GetMapping("{id}")
+    @Permission
+    public R<OrderWithMenu> get(@PathVariable Integer id){
+        return new R<OrderWithMenu>().data(orderService.get(id));
+    }
 }

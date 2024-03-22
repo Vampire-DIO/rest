@@ -9,4 +9,30 @@
         <result column="user_id" property="userId" />
     </resultMap>
 
+    <resultMap id="ShopWithRel" type="org.lin.entity.dto.ShopWithRel">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <collection property="userIds" ofType="java.lang.String" resultMap="userIds"/>
+    </resultMap>
+
+    <resultMap id="userIds" type="java.lang.Integer">
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <select id="getShopWithRelById" resultMap="ShopWithRel"
+            parameterType="java.lang.Integer">
+        select  s.id as id,
+        s.name as name,
+        s.create_time as create_time,
+        s.status as status,
+        sur.user_id as user_id
+
+        from shop s
+        left join shop_user_rel sur on s.id = sur.shop_id
+        where s.id = #{shopId}
+
+    </select>
+
 </mapper>

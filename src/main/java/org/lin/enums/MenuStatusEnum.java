@@ -3,6 +3,9 @@ package org.lin.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 import lombok.ToString;
+import org.lin.exception.BussinessException;
+
+import java.util.Objects;
 
 /**
  * @Author LvWei
@@ -27,4 +30,12 @@ public enum MenuStatusEnum {
         this.tag = tag;
     }
 
+    public static MenuStatusEnum getByCode(Integer status) {
+        for (MenuStatusEnum value : MenuStatusEnum.values()) {
+            if (Objects.equals(value.getCode(), status)){
+                return value;
+            }
+        }
+        throw new BussinessException(4312, "未找到对应的状态");
+    }
 }

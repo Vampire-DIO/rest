@@ -8,6 +8,7 @@ import org.lin.entity.bo.Menu;
 import org.lin.entity.dto.MenuDTO;
 import org.lin.entity.req.MenuQuery;
 import org.lin.entity.req.MenuSave;
+import org.lin.entity.req.MenuStatusUpdate;
 import org.lin.entity.vo.PageListVO;
 import org.lin.entity.vo.R;
 import org.lin.entity.vo.menu.CategoryWithMenus;
@@ -63,5 +64,11 @@ public class MenuController {
         return new R<Integer>().data(menuService.update(menu));
     }
 
+
+    @PutMapping("/status")
+    @Permission
+    public R<Integer> updateStatus(@RequestBody @Valid MenuStatusUpdate menu){
+        return new R<Integer>().data(menuService.updateStatus(menu));
+    }
 
 }

@@ -5,6 +5,7 @@ import org.lin.entity.bo.Menu;
 import org.lin.entity.dto.MenuDTO;
 import org.lin.entity.req.MenuQuery;
 import org.lin.entity.req.MenuSave;
+import org.lin.entity.req.MenuStatusUpdate;
 import org.lin.entity.vo.PageListVO;
 import org.lin.entity.vo.menu.CategoryWithMenus;
 import org.lin.entity.vo.menu.MenuVO;
@@ -28,4 +29,6 @@ public interface IMenuService extends IService<Menu> {
     Integer save(MenuSave menu);
 
     Integer update(MenuSave menu);
+
+    Integer updateStatus(MenuStatusUpdate menu);
 }

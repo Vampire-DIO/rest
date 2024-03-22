@@ -9,4 +9,55 @@
         <result column="menu_id" property="menuId" />
     </resultMap>
 
+    <!-- ResultMap for Menu -->
+    <resultMap id="menuMap" type="org.lin.entity.vo.menu.MenuVO">
+        <id property="id" column="menu_id"/>
+        <result property="name" column="menu_name"/>
+        <result column="price" property="price"/>
+        <result column="sold_num" property="soldNum" />
+        <result column="description" property="description"/>
+        <collection property="pics" ofType="java.lang.String" resultMap="pictureMap"/>
+    </resultMap>
+
+    <!-- Simplified ResultMap for Picture (only url) -->
+    <resultMap id="pictureMap" type="java.lang.String">
+        <result property="url" column="picture_url"/>
+    </resultMap>
+
+    <!-- ResultMap for CategoryWithMenus -->
+    <resultMap id="orderWithMenusMap" type="org.lin.entity.dto.OrderWithMenu">
+        <id property="id" column="id"/>
+        <result column="status" property="status" />
+        <result column="shop_id" property="shopId" />
+        <result column="creator_id" property="creatorId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <collection property="menuList" ofType="org.lin.entity.vo.menu.MenuVO" resultMap="menuMap"/>
+    </resultMap>
+
+
+    <select id="getOrderWithMenu" resultMap="orderWithMenusMap"
+            parameterType="java.lang.Integer">
+        select
+            o.id,
+            o.status,
+            o.shop_id,
+            o.creator_id,
+            o.create_time,
+            o.update_time,
+            m.id as menu_id,
+            m.name as menu_name,
+            m.price,
+            m.sold_num,
+            m.description,
+            p.url as picture_url
+        FROM
+            t_order o
+        LEFT JOIN order_menu_rel omr on omr.order_id = o.id
+        LEFT JOIN menu m on omr.menu_id = m.id
+        LEFT JOIN picture p on p.menu_id = m.id
+        where o.id = #{orderId}
+        group by m.id
+    </select>
+
 </mapper>

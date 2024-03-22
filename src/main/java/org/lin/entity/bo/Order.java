@@ -17,7 +17,7 @@ import org.lin.enums.OrderStatusEnum;
  * @since 2024-01-24
  */
 @Data
-@TableName("order")
+@TableName("t_order")
 @ApiModel(value="Order对象", description="")
 public class Order implements Serializable {
 

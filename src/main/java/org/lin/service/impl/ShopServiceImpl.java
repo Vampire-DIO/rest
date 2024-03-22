@@ -3,12 +3,14 @@ package org.lin.service.impl;
 import org.lin.entity.bo.Shop;
 import org.lin.entity.bo.ShopUserRel;
 import org.lin.entity.bo.User;
+import org.lin.entity.dto.ShopWithRel;
 import org.lin.enums.ShopStatusEnum;
 import org.lin.entity.req.ShopSave;
 import org.lin.mapper.ShopMapper;
 import org.lin.mapper.ShopUserRelMapper;
 import org.lin.service.IShopService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.lin.utils.AssertUtils;
 import org.lin.utils.ThreadLocalUtil;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +45,11 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         shopUserRelMapper.insert(rel);
 
         return shop.getId();
+    }
+
+    @Override
+    public ShopWithRel getShopWithRelById(Integer shopId) {
+        AssertUtils.notNull(shopId, 4033, "商铺id为空");
+        return shopUserRelMapper.getShopWithRelById(shopId);
     }
 }

@@ -1,8 +1,10 @@
 package org.lin.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.lin.entity.bo.ShopUserRel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.lin.entity.dto.ShopWithRel;
 
 /**
  * <p>
@@ -15,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 @Mapper
 public interface ShopUserRelMapper extends BaseMapper<ShopUserRel> {
 
+    ShopWithRel getShopWithRelById(@Param("shopId") Integer shopId);
 }
