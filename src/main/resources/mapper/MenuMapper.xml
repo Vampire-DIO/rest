@@ -26,6 +26,7 @@
         <result column="price" property="price"/>
         <result column="sold_num" property="soldNum" />
         <result column="description" property="description"/>
+        <result column="status" property="status"/>
         <collection property="pics" ofType="java.lang.String" resultMap="pictureMap"/>
     </resultMap>
 
@@ -52,6 +53,7 @@
             m.id as menu_id,
             m.description,
             m.price,
+            m.status,
             m.sold_num,
             m.name as menu_name,
             p.url as picture_url

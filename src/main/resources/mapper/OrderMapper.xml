@@ -11,5 +11,45 @@
         <result column="update_time" property="updateTime" />
         <result column="shop_id" property="shopId" />
     </resultMap>
+    <select id="pageList" resultType="org.lin.entity.bo.Order" parameterType="org.lin.entity.req.OrderQuery">
+        select o.* from t_order o
+        <where>
+            <if test="query != null">
+                <if test="query.status != null">
+                    and status = #{query.status}
+                </if>
+                <if test="query.shopId != null">
+                    and shop_id = #{query.shopId}
+                </if>
+                <if test="query.creatorId != null">
+                    and creator_id = #{query.creatorId}
+                </if>
+                <if test="query.sort == 0">
+                    order by create_time desc
+                </if>
+                <if test="query.sort == 1">
+                    order by create_time asc
+                </if>
+            </if>
+        </where>
+
+
+    </select>
+    <select id="totalCount" resultType="java.lang.Long" parameterType="org.lin.entity.req.OrderQuery">
+        select count(1) from t_order o
+        <where>
+            <if test="query != null">
+                <if test="query.status != null">
+                    and status = #{query.status}
+                </if>
+                <if test="query.shopId != null">
+                    and shop_id = #{query.shopId}
+                </if>
+                <if test="query.creatorId != null">
+                    and creator_id = #{query.creatorId}
+                </if>
+            </if>
+        </where>
+    </select>
 
 </mapper>

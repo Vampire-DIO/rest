@@ -1,4 +1,4 @@
-package org.lin.entity.dto;
+package org.lin.entity.vo.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -7,19 +7,18 @@ import org.lin.enums.OrderStatusEnum;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
- * @Author LvWei
- * @Date 2024/3/22 15:33
- */
+ * @Author: lvwei
+ * @Description: TODO
+ * @DateTime: 2024/3/23 11:17
+ **/
 @Data
-public class OrderWithMenu {
-
+public class OrderListVO {
     private Integer id;
 
     private Integer creatorId;
-
-    private String shopName;
 
     private OrderStatusEnum status;
 
@@ -32,4 +31,6 @@ public class OrderWithMenu {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
+    private Set<String> pics;
 }

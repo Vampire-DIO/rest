@@ -22,12 +22,24 @@ swagger:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml #指定xml路径
   configuration:
+    pagination: true
     # sql输出到控制台  方便查看
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-enums-package: org.lin.enums
+  global-config:
+    db-config:
+      # 分页方言，默认为 MySQL
+      page-helper: true
+      # 支持的数据库类型
+      dialect: mysql
 
 logging:
   level:
-    org:
-      lin:
-        mybatis: debug
+    org.apache.ibatis: DEBUG
+    org.mybatis.spring.SqlSessionFactoryBean: DEBUG
+
+# logging:
+#   level:
+#     org:
+#       lin:
+#         mybatis: debug

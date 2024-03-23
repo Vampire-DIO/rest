@@ -15,7 +15,7 @@ import java.util.Objects;
 @ToString
 public enum MenuStatusEnum {
 
-    EXIST(0, "存在"),
+    EXIST(0, "有货"),
 
     SOLD_OUT(1, "售罄");
 

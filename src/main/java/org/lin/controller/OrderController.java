@@ -54,8 +54,8 @@ public class OrderController {
 
     @GetMapping("list")
     @Permission
-    public R<PageListVO<Order>> list(OrderQuery query){
-        return new R<PageListVO<Order>>().data(orderService.list(query));
+    public R<PageListVO<OrderWithMenu>> list(OrderQuery query){
+        return new R<PageListVO<OrderWithMenu>>().data(orderService.list(query));
     }
 
     @GetMapping("{id}")

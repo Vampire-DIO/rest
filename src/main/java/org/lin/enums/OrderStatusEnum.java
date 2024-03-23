@@ -12,12 +12,12 @@ import lombok.ToString;
 @ToString
 public enum OrderStatusEnum {
 
-    IN_PROCESS(0, "处理中", "IN_PROCESS"),
+    IN_PROCESS(0, "努力备餐中", "IN_PROCESS"),
     SUCCESS(1, "已完成,待评价","SUCCESS_WAIT_EVALUATE"),
     CANCELED(2, "已取消","CANCEL"),
     FINISH(3, "已完成,已评价","FINISH"),
-    WAIT_RECEIVE(4, "待接收处理","WAIT_RECEIVE"),
-    CANCEL_WAIT_ACK(5, "用户已取消, 待商家确认","CANCEL_WAIT_ACK"),
+    WAIT_RECEIVE(4, "等待接单","WAIT_RECEIVE"),
+    CANCEL_WAIT_ACK(5, "订单取消中，待店主确认","CANCEL_WAIT_ACK"),
     ;
 
     private final Integer code;

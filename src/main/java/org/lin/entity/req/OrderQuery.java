@@ -14,8 +14,14 @@ public class OrderQuery extends PageBaseReq{
 
     private Integer id;
 
-    private Integer status = OrderStatusEnum.WAIT_RECEIVE.getCode();
+    private String status;
 
     private Integer shopId;
 
+    private Integer creatorId;
+
+    /**
+     * 0 = 创建时间倒序 1= 创建时间逆序
+     */
+    private Integer sort = 0;
 }

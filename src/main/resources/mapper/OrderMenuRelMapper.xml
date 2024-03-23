@@ -16,6 +16,7 @@
         <result column="price" property="price"/>
         <result column="sold_num" property="soldNum" />
         <result column="description" property="description"/>
+        <result column="menu_status" property="status"/>
         <collection property="pics" ofType="java.lang.String" resultMap="pictureMap"/>
     </resultMap>
 
@@ -27,8 +28,9 @@
     <!-- ResultMap for CategoryWithMenus -->
     <resultMap id="orderWithMenusMap" type="org.lin.entity.dto.OrderWithMenu">
         <id property="id" column="id"/>
-        <result column="status" property="status" />
+        <result column="order_status" property="status" />
         <result column="shop_id" property="shopId" />
+        <result column="shop_name" property="shopName"/>
         <result column="creator_id" property="creatorId" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -36,11 +38,12 @@
     </resultMap>
 
 
+
     <select id="getOrderWithMenu" resultMap="orderWithMenusMap"
             parameterType="java.lang.Integer">
         select
             o.id,
-            o.status,
+            o.status as order_status,
             o.shop_id,
             o.creator_id,
             o.create_time,
@@ -48,6 +51,7 @@
             m.id as menu_id,
             m.name as menu_name,
             m.price,
+            m.status as menu_status,
             m.sold_num,
             m.description,
             p.url as picture_url
@@ -58,6 +62,57 @@
         LEFT JOIN picture p on p.menu_id = m.id
         where o.id = #{orderId}
         group by m.id
+    </select>
+
+    <select id="getOrderWithMenuList" resultMap="orderWithMenusMap"
+            parameterType="org.lin.entity.req.OrderQuery">
+        select
+        o.id,
+        o.status as order_status,
+        o.shop_id,
+        s.name as shop_name,
+        o.creator_id,
+        o.create_time,
+        o.update_time,
+        m.id as menu_id,
+        m.name as menu_name,
+        m.price,
+        m.status as menu_staus,
+        m.sold_num,
+        m.description,
+        p.url as picture_url
+        FROM
+        t_order o
+        LEFT JOIN order_menu_rel omr on omr.order_id = o.id
+        LEFT JOIN menu m on omr.menu_id = m.id
+        LEFT JOIN picture p on p.menu_id = m.id
+        LEFT JOIN shop s on s.id = o.shop_id
+        <where>
+            <if test="query != null">
+                <if test="query.status != null">
+                    and o.status = #{query.status}
+                </if>
+                <if test="query.shopId != null">
+                    and shop_id = #{query.shopId}
+                </if>
+                <if test="query.creatorId != null">
+                    and creator_id = #{query.creatorId}
+                </if>
+                group by o.id, menu_id
+                <if test="query.sort == 0">
+                    order by create_time desc
+                </if>
+                <if test="query.sort == 1">
+                    order by create_time asc
+                </if>
+            </if>
+        </where>
+        <if test="query.page == 0 || query.page == 1">
+            limit #{query.pageSize}
+        </if>
+        <if test="query.page > 1">
+            limit #{query.page}, #{query.pageSize}
+        </if>
     </select>
 
 </mapper>

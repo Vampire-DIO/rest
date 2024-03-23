@@ -13,15 +13,11 @@ import java.util.List;
 @ApiModel
 public class MenuVO {
     private Integer id;
-
     private Integer categoryId;
-
     private String name;
     private String description;
-
     private List<String> pics;
-
     private Integer price;
-
     private Integer soldNum;
+    private String status;
 }

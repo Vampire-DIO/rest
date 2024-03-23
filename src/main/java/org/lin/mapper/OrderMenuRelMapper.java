@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.lin.entity.bo.OrderMenuRel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.lin.entity.dto.OrderWithMenu;
+import org.lin.entity.req.OrderQuery;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,4 +21,7 @@ import org.lin.entity.dto.OrderWithMenu;
 public interface OrderMenuRelMapper extends BaseMapper<OrderMenuRel> {
 
     OrderWithMenu getOrderWithMenu(@Param("orderId")  Integer orderId);
+
+    List<OrderWithMenu> getOrderWithMenuList(@Param("query") OrderQuery query);
+
 }

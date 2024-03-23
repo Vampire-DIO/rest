@@ -27,7 +27,7 @@ public interface IOrderService extends IService<Order> {
 
     Boolean update(OrderUpdate update);
 
-    PageListVO<Order> list(OrderQuery query);
+    PageListVO<OrderWithMenu> list(OrderQuery query);
 
     OrderWithMenu get(Integer id);
 }

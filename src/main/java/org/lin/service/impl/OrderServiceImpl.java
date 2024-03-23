@@ -11,11 +11,13 @@ import org.lin.entity.req.OrderQuery;
 import org.lin.entity.req.OrderSave;
 import org.lin.entity.req.OrderUpdate;
 import org.lin.entity.vo.PageListVO;
+import org.lin.entity.vo.order.OrderListVO;
 import org.lin.entity.vo.order.OrderVO;
 import org.lin.enums.MenuStatusEnum;
 import org.lin.enums.OrderStatusEnum;
 import org.lin.exception.BussinessException;
 import org.lin.mapper.OrderMapper;
+import org.lin.mapper.OrderMenuRelMapper;
 import org.lin.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.lin.utils.AssertUtils;
@@ -53,6 +55,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private IShopService shopService;
     @Resource
     private IShopUserRelService userRelService;
+
+    @Resource
+    private OrderMapper orderMapper;
+
+
+    @Resource
+    private OrderMenuRelMapper orderMenuRelMapper;
 
     @Transactional
     @Override
@@ -123,7 +132,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public PageListVO<Order> list(OrderQuery query) {
+    public PageListVO<OrderWithMenu> list(OrderQuery query) {
         Integer userId = ThreadLocalUtil.getUser().getId();
         Shop shop = shopService.getById(query.getShopId());
         AssertUtils.notNull(shop, 400, "店铺不存在");
@@ -131,14 +140,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 .stream().map(ShopUserRel::getUserId).collect(Collectors.toSet());
         AssertUtils.isTrue(set.contains(userId), 400, "无权限");
 
-        Page<Order> page = page(new Page<>(query.getPage(), query.getPageSize()), new LambdaQueryWrapper<Order>().eq(Order::getShopId, query.getShopId())
-                .eq(Order::getStatus, OrderStatusEnum.getByCode(query.getStatus())));
+        List<OrderWithMenu> records = orderMenuRelMapper.getOrderWithMenuList(query);
+        Long total = orderMapper.totalCount(query);
+        Long totalPage = total % query.getPageSize() == 0 ? total / query.getPageSize() : total / query.getPageSize() + 1;
 
-        PageListVO<Order> res = new PageListVO<>();
-        res.setData(page.getRecords());
-        res.setTotal(page.getTotal());
+        PageListVO<OrderWithMenu> res = new PageListVO<>();
+        res.setData(records  );
+        res.setTotal(total);
         res.setCurrentPage(query.getPage());
-        res.setPageSize(query.getPageSize());
+        res.setPageSize(records.size());
+        res.setTotalPage(totalPage);
         return res;
     }
 
