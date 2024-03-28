@@ -9,11 +9,13 @@ import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.lin.config.MinioProperties;
 import org.lin.entity.dto.MinioUploadRes;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -39,7 +41,15 @@ public class MinioFileUtil {
     @Resource
     private MinioProperties minioProperties;
 
+    @Resource
+    private ApplicationContext applicationContext;
+
     private MinioClient minioClient;
+
+    @PostConstruct
+    public void init(){
+        applicationContext.getBean(MinioClient.class);
+    }
 
     /**
      * 这个是6.0.左右的版本
@@ -75,6 +85,7 @@ public class MinioFileUtil {
                 .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
                 .build();
         this.minioClient = minioClient;
+        log.info("minio client 初始化完成...");
         return minioClient;
     }
 
@@ -274,7 +285,7 @@ public class MinioFileUtil {
                 .method(Method.GET)//下载地址的请求方式
                 .bucket(bucketName)
                 .object(objectName)
-//                .expiry(expires, TimeUnit.SECONDS)//下载地址过期时间
+                .expiry(expires, TimeUnit.SECONDS)//下载地址过期时间
                 .build();
         return minioClient.getPresignedObjectUrl(args);
     }

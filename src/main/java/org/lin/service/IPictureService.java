@@ -20,4 +20,6 @@ public interface IPictureService extends IService<Picture> {
     R<Integer> upload(MultipartFile file);
 
     boolean deleteBatch(List<Picture> deleteList);
+
+    int updateUrl();
 }

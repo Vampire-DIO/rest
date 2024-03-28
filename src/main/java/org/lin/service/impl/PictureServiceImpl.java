@@ -1,5 +1,6 @@
 package org.lin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.lin.entity.bo.Picture;
 import org.lin.entity.dto.MinioUploadRes;
@@ -29,6 +30,9 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
 
     @Resource
     private MinioFileUtil minioFileUtil;
+
+    @Resource
+    private PictureMapper pictureMapper;
 
 
     public R<Integer> upload(MultipartFile file) {
@@ -62,6 +66,25 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             }
         });
         return true;
+    }
+
+    @Override
+    public int updateUrl() {
+        QueryWrapper<Picture> wrapper = new QueryWrapper<>();
+        wrapper.isNotNull("file_name").isNotNull("bucket_name");
+        List<Picture> pictures = pictureMapper.selectList(wrapper);
+        pictures.forEach(f-> {
+            String url = null;
+            try {
+                url = minioFileUtil.getFileDownloadUrl(f.getBucketName(), f.getFileName(), 43200);
+            } catch (Exception e) {
+                log.error("更新图片url失败");
+                throw new RuntimeException(e);
+            }
+            f.setUrl(url);
+        });
+        updateBatchById(pictures);
+        return pictures.size();
     }
 
 }

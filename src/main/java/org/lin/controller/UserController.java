@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * @Author LvWei
@@ -26,7 +27,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public R<String> login(@RequestBody User user){
+    public R<String> login(@RequestBody @Valid User user){
         return new R<String>().data(userService.login(user));
     }
 

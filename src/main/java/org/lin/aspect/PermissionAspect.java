@@ -34,7 +34,7 @@ public class PermissionAspect {
         HttpServletRequest request = sra.getRequest();
 
         String token = request.getHeader("token");
-        AssertUtils.isTrue(StringUtils.isNotEmpty(token), ResultCodeEnum.NOT_LOGIN);
+        AssertUtils.isTrue(StringUtils.isNotEmpty(token), ResultCodeEnum.TOKEN_EXPIRED);
 
         User user = JwtUtils.verifyToken(token);
         ThreadLocalUtil.setUserInfo(user);
